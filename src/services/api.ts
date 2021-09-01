@@ -1,7 +1,7 @@
-import { APIRecipieList, APIResponse } from "@/types/api.types";
-import { Recipie } from "@/types/recipie.types";
+import { APIResponse } from "@/types/api.types";
 import axios, { Canceler, AxiosRequestConfig } from "axios";
-import { data as mockdata } from "@/mockups/mockdata"
+import { mockRecipies } from "@/mockups/mockRecipies"
+import { mockTags } from "@/mockups/mockRecipieTags"
 
 class APIService {
     baseUrl;
@@ -50,15 +50,17 @@ class APIService {
         if (process.env.NODE_ENV === "development") {
             switch (uri.toLowerCase()) {
                 case "getrecipie":
-                    return mockdata[0];
+                    return mockRecipies[0];
                 case "getrecipiebytag":
-                    return mockdata;
+                    return mockRecipies;
+                case "gettags":
+                    return mockTags;
                 default:
-                    return mockdata
+                    return mockRecipies
             }
         }
 
-        let apiResponse: Recipie | Recipie[] | Record<string, string> = {};
+        let apiResponse: unknown = null;
 
         const config: AxiosRequestConfig = {
             url: this.baseUrl + uri,

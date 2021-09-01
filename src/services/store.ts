@@ -7,7 +7,8 @@ const initialRecipieState = (): RecipieState => ({ recipieList: [] })
 
 const initialState = (): State => ({
     recipieList: initialRecipieState(),
-    recipieListByTag: initialRecipieState()
+    recipieListByTag: initialRecipieState(),
+    tagList: []
 })
 
 class Store {
@@ -29,6 +30,16 @@ class Store {
         // }
 
         return this.state.recipieList.recipieList;
+    }
+
+    public async getAllTags() {
+        const response = await api.get("getTags", null);
+
+        if (response as unknown as string[]) {
+            this.state.tagList = response as unknown as string[];
+        }
+
+        return this.state.tagList;
     }
 
     // // Get a Recipie

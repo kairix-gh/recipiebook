@@ -8,4 +8,5 @@ export interface RecipieState {
 export interface State {
     recipieList: RecipieState
     recipieListByTag: RecipieState
+    tagList: string[]
 }

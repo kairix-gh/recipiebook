@@ -1,6 +1,6 @@
-export { data }
+export { mockRecipies }
 
-const data = [
+const mockRecipies = [
     {
         "id": "3a615954-a3f4-4afd-9954-72c254e2f21d",
         "type": "recipie",
