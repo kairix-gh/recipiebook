@@ -40,14 +40,14 @@
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center ">
-                <router-link :to="{ name: 'Home' }" class="my-2 border-b-2 border-white hover:border-blue-500 transition-all duration-300 ease-in-out">
-                    <p>Home</p>
+                <router-link :to="{ name: 'Home' }" class="group py-2">
+                    <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">Home</span>
                 </router-link>
 
                 <ul class="space-x-8 px-6 inline-flex">
-                    <li v-for="(item, index) in items" :key="index" class="my-2 border-b-2 border-white hover:border-blue-500 transition-all duration-300 ease-in-out">
-                        <router-link :to="{ name: item.route }" class="m-2 w-1/2">
-                            {{ item.label }}
+                    <li v-for="(item, index) in items" :key="index" class="group">
+                        <router-link :to="{ name: item.route }" class=" inline-block py-2">
+                            <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">{{ item.label }}</span>
                         </router-link>
                     </li>
                 </ul>
