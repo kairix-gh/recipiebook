@@ -19,12 +19,8 @@ class Store {
 
     // Get Recipie List
     public async getAllRecipies() {
-        console.log('start')
         // if (!this.state.recipieList.recipieList) {
-        console.log('starting api call')
         const response = await api.get("getRecipies", null);
-        console.log("made api call, result:")
-        console.log(response);
         if (response as unknown as Recipie[]) {
             this.state.recipieList.recipieList = response as unknown as Recipie[];
         } else {

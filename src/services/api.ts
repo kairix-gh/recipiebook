@@ -1,7 +1,7 @@
 import { APIRecipieList, APIResponse } from "@/types/api.types";
 import { Recipie } from "@/types/recipie.types";
 import axios, { Canceler, AxiosRequestConfig } from "axios";
-
+import { data as mockdata } from "@/mockups/mockdata"
 
 class APIService {
     baseUrl;
@@ -47,6 +47,10 @@ class APIService {
     }
 
     async get(uri: string, accessToken: string | null) {
+        if (process.env.NODE_ENV === "development") {
+            return mockdata
+        }
+
         let apiResponse: Recipie | Recipie[] | Record<string, string> = {};
 
         const config: AxiosRequestConfig = {
@@ -93,9 +97,3 @@ class APIService {
 }
 
 export default new APIService(process.env.VUE_APP_API_BASE_URL);
-
-// const apiService = new APIService(process.env.VUE_APP_API_BASE_URL);
-
-// export const useAPI = (): APIService => {
-//     return apiService;
-// }
