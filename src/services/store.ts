@@ -54,7 +54,7 @@ class Store {
             }
         }
 
-        return this.state.tagList;
+        return this.state.tagList.data;
     }
 
     // // Get a Recipie
