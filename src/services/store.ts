@@ -3,7 +3,7 @@ import { reactive } from "vue";
 import api from "@/services/api"
 import { Recipie } from "@/types/recipie.types";
 
-const initialRecipieState = (): RecipieState => ({ recipieList: [], timestamp: null })
+const initialRecipieState = (): RecipieState => ({ recipieList: [] })
 
 const initialState = (): State => ({
     recipieList: initialRecipieState(),

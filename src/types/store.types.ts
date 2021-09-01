@@ -2,7 +2,7 @@ import { Recipie } from "./recipie.types";
 
 export interface RecipieState {
     recipieList: Recipie[]
-    timestamp: Date | null
+    // timestamp: Date | null
 }
 
 export interface State {
