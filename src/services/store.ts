@@ -1,42 +1,57 @@
-import { RecipieState, State } from "@/types/store.types"
-import { reactive } from "vue";
+import { RecipieState, State, TagListState } from "@/types/store.types"
 import api from "@/services/api"
 import { Recipie } from "@/types/recipie.types";
 
-const initialRecipieState = (): RecipieState => ({ recipieList: [] })
+const initialRecipieState = (): RecipieState => ({ data: [], timestamp: null })
+const initialTagListState = (): TagListState => ({ data: [], timestamp: null })
 
 const initialState = (): State => ({
     recipieList: initialRecipieState(),
     recipieListByTag: initialRecipieState(),
-    tagList: []
+    tagList: initialTagListState(),
 })
 
 class Store {
     protected state: State;
+    private EXPIRED_DATA_MINUTES = 5;
 
     constructor(initialState: State) {
-        this.state = reactive(initialState);
+        this.state = initialState;
+    }
+
+    private isDateExpired(date: Date) {
+        const now = new Date();
+
+        const diff = Math.abs(now.valueOf() - date.valueOf());
+        const diffMin = Math.ceil(diff / (1000 * 60));
+
+        return diffMin >= this.EXPIRED_DATA_MINUTES;
     }
 
     // Get Recipie List
     public async getAllRecipies() {
-        // if (!this.state.recipieList.recipieList) {
-        const response = await api.get("getRecipies", null);
-        if (response as unknown as Recipie[]) {
-            this.state.recipieList.recipieList = response as unknown as Recipie[];
-        } else {
-            console.log("Err");
+        if (!this.state.recipieList.timestamp || this.isDateExpired(this.state.recipieList.timestamp)) {
+            const response = await api.get("getRecipies", null);
+            if (response as unknown as Recipie[]) {
+                this.state.recipieList.data = response as unknown as Recipie[];
+                this.state.recipieList.timestamp = new Date();
+            } else {
+                console.log("Err in getAllRecipies");
+            }
         }
-        // }
 
-        return this.state.recipieList.recipieList;
+        return this.state.recipieList.data;
     }
 
     public async getAllTags() {
-        const response = await api.get("getTags", null);
-
-        if (response as unknown as string[]) {
-            this.state.tagList = response as unknown as string[];
+        if (!this.state.tagList.timestamp || this.isDateExpired(this.state.tagList.timestamp)) {
+            const response = await api.get("getTags", null);
+            if (response as unknown as string[]) {
+                this.state.tagList.data = response as unknown as string[];
+                this.state.recipieList.timestamp = new Date();
+            } else {
+                console.log("Err in getAllTags");
+            }
         }
 
         return this.state.tagList;
