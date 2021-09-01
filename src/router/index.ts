@@ -9,13 +9,18 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/recipies",
         name: "Recipies",
-        component: () => import("@/views/Recipies.vue")
+        component: () => import("@/views/ViewAllRecipies.vue")
     },
     {
         path: "/about",
         name: "About",
         component: () => import("@/views/About.vue"),
     },
+    {
+        path: "/recipie/:id",
+        name: "ViewRecipie",
+        component: () => import("@/views/About.vue")
+    }
 ]
 
 const router = createRouter({
