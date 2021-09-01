@@ -22,7 +22,7 @@ import RecipieDisplay from "@/components/RecipieDisplay.vue"
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
-    name: "Home",
+    name: "ViewRecipie",
     components: {
         RecipieDisplay,
     },

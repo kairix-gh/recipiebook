@@ -35,7 +35,7 @@ import RecipieList from "@/components/RecipieList.vue"
 import TagList from "@/components/TagList.vue"
 
 export default defineComponent({
-    name: "Home",
+    name: "ViewAllRecipies",
     components: {
         RecipieList,
         TagList

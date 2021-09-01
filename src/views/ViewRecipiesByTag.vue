@@ -36,7 +36,7 @@ import TagList from "@/components/TagList.vue"
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
-    name: "Home",
+    name: "ViewRecipiesByTag",
     components: {
         RecipieList,
         TagList
