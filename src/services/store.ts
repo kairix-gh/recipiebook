@@ -90,7 +90,7 @@ class Store {
             }
         }
 
-        return readonly(this.state.recipie.data);
+        return this.state.recipie.data;
     }
 
 }
