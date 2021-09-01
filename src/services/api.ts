@@ -48,7 +48,14 @@ class APIService {
 
     async get(uri: string, accessToken: string | null) {
         if (process.env.NODE_ENV === "development") {
-            return mockdata
+            switch (uri.toLowerCase()) {
+                case "getrecipie":
+                    return mockdata[0];
+                case "getrecipiebytag":
+                    return mockdata;
+                default:
+                    return mockdata
+            }
         }
 
         let apiResponse: Recipie | Recipie[] | Record<string, string> = {};

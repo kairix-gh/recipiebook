@@ -9,13 +9,10 @@
             <p>Loading..?</p>
         </template>
     </Suspense>
-
-    <!-- <RecipieDisplay :recipie="selectedRecipie"/> -->
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useStore } from "@/services/store"
 import RecipieList from "@/components/RecipieList.vue"
 
 export default defineComponent({
