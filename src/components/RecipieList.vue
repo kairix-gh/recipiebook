@@ -28,8 +28,6 @@ export default defineComponent({
 
         async function getRecipies() {
             if (props.tagFilter) {
-                console.log(props.tagFilter)
-
                 recipies.value = await store.getRecipiesByTag(props.tagFilter);
             } else {
                 recipies.value = await store.getAllRecipies();
