@@ -34,7 +34,7 @@
         </div>
 
         <!-- Notes -->
-        <div class="my-6">
+        <div class="my-6" v-if="recipie.notes.length > 0">
             <p class="border-b mb-2">Notes</p>
             <ul class="list-disc ml-8">
                 <li v-for="(note, index) in recipie.notes" :key="index">{{ note }}</li>
