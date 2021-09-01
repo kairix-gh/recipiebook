@@ -1,6 +1,7 @@
 import { RecipieState, State, TagListState } from "@/types/store.types"
 import api from "@/services/api"
 import { Recipie } from "@/types/recipie.types";
+import { readonly } from "vue";
 
 const initialRecipieState = (): RecipieState => ({ data: [], timestamp: null })
 const initialTagListState = (): TagListState => ({ data: [], timestamp: null })
@@ -40,7 +41,7 @@ class Store {
             }
         }
 
-        return this.state.recipieList.data;
+        return readonly(this.state.recipieList.data);
     }
 
     public async getAllTags() {
@@ -54,7 +55,24 @@ class Store {
             }
         }
 
-        return this.state.tagList.data;
+        return readonly(this.state.tagList.data);
+    }
+
+    // Get Recipies by Tag
+    // TODO: Sanitize tag for safety
+    public async getRecipiesByTag(tag: string) {
+        // if (!this.state.recipieListByTag.timestamp || this.isDateExpired(this.state.recipieListByTag.timestamp)) {
+        const response = await api.get("getRecipiesByTag/" + tag, null);
+
+        if (response as unknown as Recipie[]) {
+            this.state.recipieListByTag.data = response as unknown as Recipie[];
+            this.state.recipieListByTag.timestamp = new Date();
+        } else {
+            console.log("Err in getRecipiesBytag");
+        }
+        // }
+
+        return readonly(this.state.recipieListByTag.data);
     }
 
     // // Get a Recipie
@@ -62,10 +80,6 @@ class Store {
 
     // }
 
-    // // Get Recipies by Tag
-    // public getRecipiesByTag(tag: string) {
-
-    // }
 }
 
 const store = new Store(initialState())

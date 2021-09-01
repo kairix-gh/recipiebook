@@ -357,6 +357,123 @@ const mockRecipies = [
         "_etag": "\"00003301-0000-0300-0000-60d268910000\"",
         "_attachments": "attachments/",
         "_ts": 1624402065
-    }
+    },
+
+    {
+        "id": "3a615954-a3f4-4afd-9954-72c254e2f21d",
+        "type": "recipie",
+        "name": "Scalloped Potatoes22",
+        "servings": 12,
+        "timeToMake": [
+            {
+                "name": "Prep",
+                "duration": 10
+            },
+            {
+                "name": "Cook",
+                "duration": 100
+            }
+        ],
+        "nutrition": {
+            "calories": null,
+            "macros": {
+                "protien": null,
+                "carbs": null,
+                "fat": null
+            }
+        },
+        "tags": [
+            "Test",
+            "Tasty",
+        ],
+        "ingredients": [
+            {
+                "name": "Butter",
+                "amount": 4,
+                "measurement": "tbsp"
+            },
+            {
+                "name": "White Onion",
+                "amount": 1,
+                "measurement": "ea"
+            },
+            {
+                "name": "Garlic",
+                "amount": 2,
+                "measurement": "cloves"
+            },
+            {
+                "name": "Flour",
+                "amount": 0.25,
+                "measurement": "cups"
+            },
+            {
+                "name": "Milk (2%)",
+                "amount": 2,
+                "measurement": "cups"
+            },
+            {
+                "name": "Chicken Broth",
+                "amount": 1,
+                "measurement": "cups"
+            },
+            {
+                "name": "Salt",
+                "amount": 2,
+                "measurement": "tsp"
+            },
+            {
+                "name": "Pepper",
+                "amount": 1,
+                "measurement": "tbsp"
+            },
+            {
+                "name": "Yukon Potatoes Powder",
+                "amount": 3,
+                "measurement": "lbs"
+            }
+        ],
+        "steps": [
+            {
+                "name": "Preparation",
+                "tasks": [
+                    "Preheat oven to 350f (177c).",
+                    "Cut potatoes into thin slices."
+                ]
+            },
+            {
+                "name": "Making the Sauce",
+                "tasks": [
+                    "In a suace pan, melt butter on medium-low heat.",
+                    "Add onion and garlic cloves, cook for 3 minutes until soft.",
+                    "Stir in flour, cooking for another 1 to 2 minutes.",
+                    "Reduce heat to low, and slowly stir in milk and chicken broth. Add a little bit of liquid at a time, stir until smooth and there are no lumps.",
+                    "Bring liquid to a boil for one minute, and add salt and pepper.",
+                    "Remove sauce from heat."
+                ]
+            },
+            {
+                "name": "Baking the Potatoes",
+                "tasks": [
+                    "Grease a 9x13 pan with butter.",
+                    "Add a layer of potatoes into the pan and add salt and pepper to taste.",
+                    "Add a layer of sauce.",
+                    "Repeat these two steps until there are no more potatoes or sauce left. Be sure to finish with a layer of sauce on top.",
+                    "Cover baking dish with aluminum foil and bake for 45 minutes.",
+                    "Uncover the baking dish and bake for an additional 35 minutes.",
+                    "If desired, use the broiler to get a golden brown top.",
+                    "Remove from oven, and let rest for 15 minutes, then serve."
+                ]
+            }
+        ],
+        "notes": [
+            "Using a mandoline slicer is incredibly helpful when slicing the potatoes. I usually slice to a thickness of 3mm."
+        ],
+        "_rid": "AVUfAJkZakEIAAAAAAAAAA==",
+        "_self": "dbs/AVUfAA==/colls/AVUfAJkZakE=/docs/AVUfAJkZakEIAAAAAAAAAA==/",
+        "_etag": "\"00003501-0000-0300-0000-60d275150000\"",
+        "_attachments": "attachments/",
+        "_ts": 1624405269
+    },
 ]
 

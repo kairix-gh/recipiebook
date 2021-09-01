@@ -48,11 +48,13 @@ class APIService {
 
     async get(uri: string, accessToken: string | null) {
         if (process.env.NODE_ENV === "development") {
-            switch (uri.toLowerCase()) {
+            switch (uri.toLowerCase().split("/")[0]) {
                 case "getrecipie":
                     return mockRecipies[0];
-                case "getrecipiebytag":
-                    return mockRecipies;
+                case "getrecipiesbytag":
+                    return mockRecipies.filter(r =>
+                        r.tags.map(t => t.toLowerCase()).includes(uri.split("/")[1].toLowerCase())
+                    );
                 case "gettags":
                     return mockTags;
                 default:

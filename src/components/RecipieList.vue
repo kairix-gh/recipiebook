@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { useStore } from '@/services/store'
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import RecipieCard from '@/components/RecipieCard.vue'
 
 export default defineComponent({
@@ -23,13 +23,27 @@ export default defineComponent({
     },
     async setup(props) {
         const store = useStore()
-        let recipies;
+        let recipies = ref();
 
-        if (props.tagFilter) {
-            recipies = await store.getAllRecipies();
-        } else {
-            recipies = await store.getAllRecipies();
+
+        async function getRecipies() {
+            if (props.tagFilter) {
+                console.log(props.tagFilter)
+
+                recipies.value = await store.getRecipiesByTag(props.tagFilter);
+            } else {
+                recipies.value = await store.getAllRecipies();
+            }
         }
+        getRecipies();
+
+        // Update recipies when prop changes
+        watch(
+            () => props.tagFilter,
+            () => {
+                getRecipies();
+            }
+        )
 
         return {
             recipies

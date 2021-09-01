@@ -20,6 +20,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "/recipie/:id",
         name: "ViewRecipie",
         component: () => import("@/views/About.vue")
+    },
+    {
+        path: "/recipies/tag/:tag",
+        name: "RecipiesByTag",
+        component: () => import("@/views/ViewRecipiesByTag.vue")
     }
 ]
 
