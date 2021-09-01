@@ -1,5 +1,4 @@
 <template>
-    <p>Test</p>
     <Suspense>
         <template #default>
             <recipie-list/>
