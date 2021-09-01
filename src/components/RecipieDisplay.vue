@@ -10,22 +10,24 @@
 </template>
 
 <script lang="ts">
+import { useStore } from '@/services/store';
 import { Recipie } from '@/types/recipie.types'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
     name: "Recipie Display",
     components: {
     },
-    props: {
-        recipie: {
-            type: Object as PropType<Recipie>,
-            default: null,
-            required: true
-        }
-    },
-    setup() {
-        return {};
+    async setup() {
+        const route = useRoute();
+        const store = useStore();
+
+        const recipie = await store.getRecipie(route.params.id as string)
+
+        return {
+            recipie
+        };
 
     }
 })

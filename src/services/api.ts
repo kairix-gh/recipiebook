@@ -50,7 +50,7 @@ class APIService {
         if (process.env.NODE_ENV === "development") {
             switch (uri.toLowerCase().split("/")[0]) {
                 case "getrecipie":
-                    return mockRecipies[0];
+                    return mockRecipies.filter(e => e.id.toLowerCase() == uri.split("/")[1].toLowerCase())[0];
                 case "getrecipiesbytag":
                     return mockRecipies.filter(r =>
                         r.tags.map(t => t.toLowerCase()).includes(uri.split("/")[1].toLowerCase())

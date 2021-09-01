@@ -1,14 +1,16 @@
-import { RecipieState, State, TagListState } from "@/types/store.types"
+import { RecipieState, SingleRecipieState, State, TagListState } from "@/types/store.types"
 import api from "@/services/api"
 import { Recipie } from "@/types/recipie.types";
 import { readonly } from "vue";
 
 const initialRecipieState = (): RecipieState => ({ data: [], timestamp: null })
 const initialTagListState = (): TagListState => ({ data: [], timestamp: null })
+const initialRecipieSingleState = (): SingleRecipieState => ({ data: {}, timestamp: null })
 
 const initialState = (): State => ({
     recipieList: initialRecipieState(),
     recipieListByTag: initialRecipieState(),
+    recipie: initialRecipieSingleState(),
     tagList: initialTagListState(),
 })
 
@@ -76,9 +78,20 @@ class Store {
     }
 
     // // Get a Recipie
-    // public getRecipie(id: string) {
+    public async getRecipie(id: string) {
+        if (!this.state.recipie.timestamp || this.state.recipie.data?.id != id || this.isDateExpired(this.state.recipie.timestamp)) {
+            const response = await api.get("getRecipie/" + id, null);
 
-    // }
+            if (response as unknown as Recipie) {
+                this.state.recipie.data = response as unknown as Recipie;
+                this.state.recipie.timestamp = new Date();
+            } else {
+                console.log("Err in getRecipie");
+            }
+        }
+
+        return readonly(this.state.recipie.data);
+    }
 
 }
 

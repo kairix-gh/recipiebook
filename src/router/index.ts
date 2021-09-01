@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/recipie/:id",
         name: "ViewRecipie",
-        component: () => import("@/views/About.vue")
+        component: () => import("@/views/ViewRecipie.vue")
     },
     {
         path: "/recipies/tag/:tag",
