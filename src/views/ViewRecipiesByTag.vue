@@ -1,5 +1,5 @@
 <template>
-    <h1 class="mb-6 text-3xl text-center italic">Recipies Tag</h1>
+    <h1 class="mb-6 text-3xl text-center italic">Recipies tagged with {{ tag }}</h1>
     <div class="flex flex-col lg:flex-row lg:justify-between lg:space-x-4">
         <div class="mb-6">
             <Suspense>
