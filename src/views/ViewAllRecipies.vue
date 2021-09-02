@@ -13,7 +13,7 @@
             </Suspense>
         </div>
 
-        <div class="flex-grow max-w-[80%]">
+        <div class="flex-grow lg:max-w-[80%]">
             <Suspense>
                 <template #default>
                     <recipie-list/>

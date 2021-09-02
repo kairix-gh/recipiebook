@@ -1,6 +1,5 @@
 <template>
     <div class="flex flex-col lg:flex-row lg:justify-between lg:space-x-4">
-        <div class="flex-grow max-w-[80%]">
             <Suspense>
                 <template #default>
                     <recipie-display :tagFilter="tag"/>
@@ -10,7 +9,6 @@
                     <p>Loading...</p>
                 </template>
             </Suspense>
-        </div>
     </div>
 
 
