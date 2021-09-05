@@ -39,36 +39,36 @@
             </div>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center ">
-                <router-link :to="{ name: 'Home' }" class="group py-2">
-                    <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">Home</span>
-                </router-link>
+            <div class="hidden md:flex items-center justify-between ">
+                <div>
+                    <router-link :to="{ name: 'Home' }" class="group py-2">
+                        <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">Home</span>
+                    </router-link>
 
-                <ul class="space-x-8 px-6 inline-flex">
-                    <li v-for="(item, index) in items" :key="index" class="group">
-                        <router-link :to="{ name: item.route }" class=" inline-block py-2">
-                            <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">{{ item.label }}</span>
-                        </router-link>
-                    </li>
-                    <li v-if="currentAccount" class="group">
-                        <router-link :to="{ name: 'AddRecipie' }" class=" inline-block py-2">
-                            <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">Add Recipie</span>
-                        </router-link>
-                    </li>
+                    <ul class="space-x-8 px-6 inline-flex">
+                        <li v-for="(item, index) in items" :key="index" class="group">
+                            <router-link :to="{ name: item.route }" class=" inline-block py-2">
+                                <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">{{ item.label }}</span>
+                            </router-link>
+                        </li>
+                        <li v-if="currentAccount" class="group">
+                            <router-link :to="{ name: 'AddRecipie' }" class=" inline-block py-2">
+                                <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">Add Recipie</span>
+                            </router-link>
+                        </li>
 
-                    <li class="group self-center">
-                        <div v-if="currentAccount" class="flex items-center space-x-6">
-                            <p v-if="currentAccount">{{ currentAccount.name }}</p>
-                            <button @click="SignOut" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white group-hover:bg-blue-800">Log Out</button>
-                        </div>
-                        <div v-else>
-                            <button @click="SignIn" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white group-hover:bg-blue-800">Log In</button>
-                        </div>
-                    </li>
+                    </ul>
+                </div>
 
-                    <button @click="test" class="px-3 self-center py-0.5 rounded-lg bg-yellow-500 text-white hover:bg-yellow-800">Woop</button>
-                </ul>
-
+                <div class="self-center">
+                    <div v-if="currentAccount" class="flex items-center space-x-6">
+                        <p v-if="currentAccount">{{ currentAccount.name }}</p>
+                        <button @click="SignOut" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white hover:bg-blue-800">Log Out</button>
+                    </div>
+                    <div v-else>
+                        <button @click="SignIn" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white hover:bg-blue-800">Log In</button>
+                    </div>
+                </div>
             </div>
         </div>
     </Popover>
