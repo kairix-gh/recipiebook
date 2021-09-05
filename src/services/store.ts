@@ -1,7 +1,8 @@
 import { RecipieState, SingleRecipieState, State, TagListState } from "@/types/store.types"
 import api from "@/services/api"
 import { Recipie } from "@/types/recipie.types";
-import { readonly } from "vue";
+import { readonly, ref } from "vue";
+import { AccountInfo, Configuration } from "@azure/msal-browser";
 
 const initialRecipieState = (): RecipieState => ({ data: [], timestamp: null })
 const initialTagListState = (): TagListState => ({ data: [], timestamp: null })
@@ -12,6 +13,20 @@ const initialState = (): State => ({
     recipieListByTag: initialRecipieState(),
     recipie: initialRecipieSingleState(),
     tagList: initialTagListState(),
+    msalConfig: {
+        browserauthoptions: {
+
+        },
+        auth: {
+            clientId: "c2f55804-c115-43d2-9cab-e5a8064cc557", //"97188a8b-592c-42ef-9b59-ab6376ec7f97",
+            authority: "https://login.microsoftonline.com/avintyri.com",
+        },
+        cache: {
+            cacheLocation: "localStorage",
+        },
+    },
+    account: null,
+    accessToken: "",
 })
 
 class Store {
@@ -20,6 +35,30 @@ class Store {
 
     constructor(initialState: State) {
         this.state = initialState;
+    }
+
+    public setAccount(account: AccountInfo | null) {
+        this.state.account = account;
+    }
+
+    public getAccount() {
+        if (!this.state.account) {
+            return null;
+        }
+
+        return ref(this.state.account)
+    }
+
+    public getMsalConfig() {
+        return readonly(this.state.msalConfig) as Configuration;
+    }
+
+    public getAccessToken() {
+        return this.state.accessToken;
+    }
+
+    public setAccessToken(token: string) {
+        this.state.accessToken = token;
     }
 
     private isDateExpired(date: Date) {
@@ -77,7 +116,7 @@ class Store {
         return readonly(this.state.recipieListByTag.data);
     }
 
-    // // Get a Recipie
+    // Get a Recipie
     public async getRecipie(id: string) {
         if (!this.state.recipie.timestamp || this.state.recipie.data?.id != id || this.isDateExpired(this.state.recipie.timestamp)) {
             const response = await api.get("getRecipie/" + id, null);
@@ -91,6 +130,17 @@ class Store {
         }
 
         return this.state.recipie.data;
+    }
+
+    // Add a new Recipie
+    public async addRecipie() {
+        const response = await api.post("addRecipie", this.getAccessToken());
+
+        console.log(`addRecipie Response: ${response}`)
+        console.log(response);
+        console.log(`Auth Token: ${this.getAccessToken()}`)
+
+        return response;
     }
 
 }

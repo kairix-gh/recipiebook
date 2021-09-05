@@ -1,3 +1,4 @@
+import { AccountInfo } from "@azure/msal-common";
 import { Recipie } from "./recipie.types";
 
 export interface RecipieState {
@@ -20,4 +21,7 @@ export interface State {
     recipieListByTag: RecipieState
     recipie: SingleRecipieState
     tagList: TagListState
+    msalConfig: Record<string, object>
+    account: AccountInfo | null
+    accessToken: string
 }

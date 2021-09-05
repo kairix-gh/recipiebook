@@ -90,6 +90,42 @@ class APIService {
         return apiResponse;
     }
 
+    async post(uri: string, accessToken: string | null) {
+        // if (process.env.NODE_ENV === "development") {
+        //     return;
+        // }
+
+        let apiResponse: unknown = null;
+
+        const config: AxiosRequestConfig = {
+            url: 'https://recipiebookfunc.azurewebsites.net/api/' + uri, //this.baseUrl + uri,
+            method: "post",
+            timeout: this.timeout,
+            headers: {},
+            cancelToken: new axios.CancelToken((c) => {
+                this.currentRequests.push(c);
+            })
+        }
+
+        if (accessToken) {
+            config.headers = { Authorization: `Bearer ${accessToken}` }
+        }
+
+        console.log("Post config:");
+        console.log(config);
+
+        await this.retryRequest(config)
+            .then(response => {
+                // TODO: Fix type?
+                apiResponse = (response as APIResponse).data;
+            })
+            .catch(error => {
+                apiResponse = this.processError(error);
+            })
+
+        return apiResponse;
+    }
+
     processError(error: Record<string, unknown>) {
         const response: Record<string, string> = {};
 
