@@ -25,7 +25,12 @@ const routes: Array<RouteRecordRaw> = [
         path: "/recipies/tag/:tag",
         name: "RecipiesByTag",
         component: () => import("@/views/ViewRecipiesByTag.vue")
-    }
+    },
+    {
+        path: "/recipies/add",
+        name: "AddRecipie",
+        component: () => import("@/views/AddRecipie.vue")
+    },
 ]
 
 const router = createRouter({

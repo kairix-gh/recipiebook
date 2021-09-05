@@ -28,7 +28,7 @@
         <p class="font-medium">Nutrition:</p>
         <div class="flex space-x-8 mb-6">
             <p>Calories: <span class="text-gray-500">{{ recipie.nutrition.calories ?? 'N/A' }}</span></p>
-            <p>Protein: <span class="text-gray-500">{{ recipie.nutrition.macros.protien ?? 'N/A' }}</span></p>
+            <p>Protein: <span class="text-gray-500">{{ recipie.nutrition.macros.protein ?? 'N/A' }}</span></p>
             <p>Carbs: <span class="text-gray-500">{{ recipie.nutrition.macros.carbs ?? 'N/A' }}</span></p>
             <p>Fats: <span class="text-gray-500">{{ recipie.nutrition.macros.fat ?? 'N/A' }}</span></p>
         </div>

@@ -1,0 +1,6 @@
+input:focus-within ~ label,
+input:not(:placeholder-shown) ~ label {
+    transform: scale(.75) translateY(-2rem);
+    background-color: white;
+    font-weight: 700;
+}

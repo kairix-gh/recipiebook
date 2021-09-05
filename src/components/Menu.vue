@@ -50,6 +50,12 @@
                             <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">{{ item.label }}</span>
                         </router-link>
                     </li>
+                    <li v-if="currentAccount" class="group">
+                        <router-link :to="{ name: 'AddRecipie' }" class=" inline-block py-2">
+                            <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">Add Recipie</span>
+                        </router-link>
+                    </li>
+
                     <li class="group self-center">
                         <div v-if="currentAccount" class="flex items-center space-x-6">
                             <p v-if="currentAccount">{{ currentAccount.name }}</p>
@@ -69,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { Popover, PopoverPanel, PopoverButton } from "@headlessui/vue"
 
 import { PublicClientApplication } from "@azure/msal-browser"
@@ -94,6 +100,15 @@ export default defineComponent({
 
         const accounts = msal.getAllAccounts();
         const currentAccount = ref(store.getAccount());
+        const isAdmin = computed(() => {
+            if (currentAccount.value?.idTokenClaims) {
+                if (((currentAccount.value.idTokenClaims as Record<string, unknown>).roles as string[]) [0] == "Recipie.Add") {
+                    return true;
+                }
+            }
+            return false;
+        })
+
         if (accounts.length > 0) {
             msal.setActiveAccount(accounts[0]);
             currentAccount.value = accounts[0];
@@ -139,16 +154,12 @@ export default defineComponent({
                 })
         }
 
-        async function test() {
-            const res = await store.addRecipie();
-        }
-
         return {
             items,
             SignIn,
             SignOut,
             currentAccount,
-            test
+            isAdmin
         }
     }
 })

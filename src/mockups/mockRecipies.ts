@@ -19,7 +19,7 @@ const mockRecipies = [
         "nutrition": {
             "calories": null,
             "macros": {
-                "protien": null,
+                "protein": null,
                 "carbs": null,
                 "fat": null
             }
@@ -137,7 +137,7 @@ const mockRecipies = [
         "nutrition": {
             "calories": null,
             "macros": {
-                "protien": null,
+                "protein": null,
                 "carbs": null,
                 "fat": null
             }
@@ -274,7 +274,7 @@ const mockRecipies = [
         "nutrition": {
             "calories": null,
             "macros": {
-                "protien": null,
+                "protein": null,
                 "carbs": null,
                 "fat": null
             }
@@ -377,7 +377,7 @@ const mockRecipies = [
         "nutrition": {
             "calories": null,
             "macros": {
-                "protien": null,
+                "protein": null,
                 "carbs": null,
                 "fat": null
             }

@@ -15,7 +15,7 @@ export interface Nutrition {
 }
 
 export interface NutritionMacros {
-    protien: number
+    protein: number
     carbs: number
     fat: number
 }
