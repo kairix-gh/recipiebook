@@ -2,10 +2,18 @@
     @apply block focus:outline-none appearance-none text-gray-900 border rounded py-3 px-4 shadow bg-transparent;
 }
 
+.form-base-focus {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white  focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 focus-visible:border-blue-500;
+}
+
+.form-error {
+    @apply border-red-500;
+}
+
 .label-base {
     @apply text-xs uppercase font-medium ml-2;
 }
 
-.form-base-focus {
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-blue-300 focus-visible:ring-offset-2 focus-visible:border-blue-500
+.form-error-message {
+    @apply text-sm italic text-red-500;
 }
