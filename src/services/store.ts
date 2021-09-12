@@ -133,8 +133,8 @@ class Store {
     }
 
     // Add a new Recipie
-    public async addRecipie() {
-        const response = await api.post("addRecipie", this.getAccessToken());
+    public async addRecipie(json: string) {
+        const response = await api.post("addRecipie", this.getAccessToken(), json);
 
         console.log(`addRecipie Response: ${response}`)
         console.log(response);

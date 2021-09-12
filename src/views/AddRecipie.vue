@@ -60,6 +60,7 @@ import BaseInput from "@/components/AddRecipie/BaseInput.vue"
 
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
+import { useStore } from '@/services/store'
 
 export default defineComponent({
     name: "AddRecipie",
@@ -119,9 +120,15 @@ export default defineComponent({
         const { value: rSteps, errorMessage: rStepsError } = useField("steps", "", { initialValue: [] });
         const { value: rNotes, errorMessage: rNotesError } = useField("notes", "", { initialValue: [] });
 
+
+        const store = useStore();
+
         // Submit handling
-        const onSubmit = handleSubmit(values => {
+        const onSubmit = handleSubmit(async values => {
             console.log(JSON.stringify(values, null, 4));
+            const response = await store.addRecipie(JSON.stringify(values))
+
+            console.log(response);
         })
 
         return {

@@ -90,7 +90,7 @@ class APIService {
         return apiResponse;
     }
 
-    async post(uri: string, accessToken: string | null) {
+    async post(uri: string, accessToken: string | null, data: string | null) {
         // if (process.env.NODE_ENV === "development") {
         //     return;
         // }
@@ -104,15 +104,13 @@ class APIService {
             headers: {},
             cancelToken: new axios.CancelToken((c) => {
                 this.currentRequests.push(c);
-            })
+            }),
+            data: data
         }
 
         if (accessToken) {
             config.headers = { Authorization: `Bearer ${accessToken}` }
         }
-
-        console.log("Post config:");
-        console.log(config);
 
         await this.retryRequest(config)
             .then(response => {
