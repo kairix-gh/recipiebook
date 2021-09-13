@@ -128,6 +128,8 @@ export default defineComponent({
             console.log(JSON.stringify(values, null, 4));
             const response = await store.addRecipie(JSON.stringify(values))
 
+
+            alert(response);
             console.log(response);
         })
 
