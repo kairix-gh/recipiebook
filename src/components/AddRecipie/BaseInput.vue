@@ -36,8 +36,16 @@ export default defineComponent({
             return typeof props.validationMessage !== 'undefined'
         })
 
+        function parseInput(value: string) {
+            if (value === "") {
+                return undefined;
+            }
+
+            return isNaN(value as unknown as number) ? value : parseFloat(value);
+        }
+
         return {
-            hasError
+            hasError,
         }
     }
 })
