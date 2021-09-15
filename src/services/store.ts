@@ -74,8 +74,8 @@ class Store {
     public async getAllRecipies() {
         if (!this.state.recipieList.timestamp || this.isDateExpired(this.state.recipieList.timestamp)) {
             const response = await api.get("getRecipies", null);
-            if (response as unknown as Recipie[]) {
-                this.state.recipieList.data = response as unknown as Recipie[];
+            if (response.success) {
+                this.state.recipieList.data = response.data as Recipie[];
                 this.state.recipieList.timestamp = new Date();
             } else {
                 console.log("Err in getAllRecipies");
@@ -88,8 +88,8 @@ class Store {
     public async getAllTags() {
         if (!this.state.tagList.timestamp || this.isDateExpired(this.state.tagList.timestamp)) {
             const response = await api.get("getTags", null);
-            if (response as unknown as string[]) {
-                this.state.tagList.data = response as unknown as string[];
+            if (response.success) {
+                this.state.tagList.data = response.data as string[];
                 this.state.recipieList.timestamp = new Date();
             } else {
                 console.log("Err in getAllTags");
@@ -105,8 +105,8 @@ class Store {
         // if (!this.state.recipieListByTag.timestamp || this.isDateExpired(this.state.recipieListByTag.timestamp)) {
         const response = await api.get("getRecipiesByTag/" + tag, null);
 
-        if (response as unknown as Recipie[]) {
-            this.state.recipieListByTag.data = response as unknown as Recipie[];
+        if (response.success) {
+            this.state.recipieListByTag.data = response.data as Recipie[];
             this.state.recipieListByTag.timestamp = new Date();
         } else {
             console.log("Err in getRecipiesBytag");
@@ -121,8 +121,8 @@ class Store {
         if (!this.state.recipie.timestamp || this.state.recipie.data?.id != id || this.isDateExpired(this.state.recipie.timestamp)) {
             const response = await api.get("getRecipie/" + id, null);
 
-            if (response as unknown as Recipie) {
-                this.state.recipie.data = response as unknown as Recipie;
+            if (response.success) {
+                this.state.recipie.data = response.data as Recipie;
                 this.state.recipie.timestamp = new Date();
             } else {
                 console.log("Err in getRecipie");

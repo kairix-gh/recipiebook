@@ -1,6 +1,7 @@
 export interface APIResponse {
-    status: string,
+    status: number,
     success: boolean,
+    errors: string[]
     data: unknown
 }
 

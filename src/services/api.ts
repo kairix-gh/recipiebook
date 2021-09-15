@@ -50,11 +50,21 @@ class APIService {
         if (process.env.NODE_ENV === "development") {
             switch (uri.toLowerCase().split("/")[0]) {
                 case "getrecipie":
-                    return mockRecipies.filter(e => e.id.toLowerCase() == uri.split("/")[1].toLowerCase())[0];
+                    return {
+                        success: true,
+                        status: 200,
+                        errors: [],
+                        data: mockRecipies.data.filter(e => e.id.toLowerCase() == uri.split("/")[1].toLowerCase())[0]
+                    };
                 case "getrecipiesbytag":
-                    return mockRecipies.filter(r =>
-                        r.tags.map(t => t.toLowerCase()).includes(uri.split("/")[1].toLowerCase())
-                    );
+                    return {
+                        success: true,
+                        status: 200,
+                        errors: [],
+                        data: mockRecipies.data.filter(r =>
+                            r.tags.map(t => t.toLowerCase()).includes(uri.split("/")[1].toLowerCase())
+                        )
+                    }
                 case "gettags":
                     return mockTags;
                 default:
@@ -62,7 +72,12 @@ class APIService {
             }
         }
 
-        let apiResponse: unknown = null;
+        let apiResponse: APIResponse = {
+            success: false,
+            status: -1,
+            errors: [],
+            data: null,
+        };
 
         const config: AxiosRequestConfig = {
             url: this.baseUrl + uri,
@@ -80,8 +95,7 @@ class APIService {
 
         await this.retryRequest(config)
             .then(response => {
-                // TODO: Fix type?
-                apiResponse = (response as APIResponse).data;
+                apiResponse = (response as Record<string, unknown>).data as APIResponse;
             })
             .catch(error => {
                 apiResponse = this.processError(error);
@@ -95,7 +109,12 @@ class APIService {
         //     return;
         // }
 
-        let apiResponse: unknown = null;
+        let apiResponse: APIResponse = {
+            success: false,
+            status: -1,
+            errors: [],
+            data: null,
+        };
 
         const config: AxiosRequestConfig = {
             url: 'https://recipiebookfunc.azurewebsites.net/api/' + uri, //this.baseUrl + uri,
@@ -115,7 +134,7 @@ class APIService {
         await this.retryRequest(config)
             .then(response => {
                 // TODO: Fix type?
-                apiResponse = (response as APIResponse).data;
+                apiResponse = (response as Record<string, unknown>).data as APIResponse;
             })
             .catch(error => {
                 apiResponse = this.processError(error);
@@ -125,16 +144,33 @@ class APIService {
     }
 
     processError(error: Record<string, unknown>) {
-        const response: Record<string, string> = {};
+        let response: APIResponse = {
+            success: false,
+            status: 400,
+            errors: [],
+            data: null,
+        };
 
         if (axios.isCancel(error)) {
+            response.errors.push("The client cancelled the request.")
             return response;
         }
 
         if (error.message == "Network Error" || error.code == "ECONNABORTED") {
             // connection error
             // raise event to inform user
+            response.status = -1;
+            response.errors.push("A client network error occured.")
             return response;
+        }
+
+        if (error.response) {
+            response = error.response as APIResponse;
+        } else if (error.request) {
+            // ??
+            response.errors.push(error.request as string);
+        } else {
+            response.errors.push(error.message as string);
         }
 
         return response;
