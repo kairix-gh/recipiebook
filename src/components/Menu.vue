@@ -78,7 +78,6 @@
 import { defineComponent, ref } from 'vue'
 import { Popover, PopoverPanel, PopoverButton } from "@headlessui/vue"
 import { useMsal } from "@/services/msal"
-import mitt, { Emitter, EventType } from "mitt";
 
 export default defineComponent({
     name: "Menu",

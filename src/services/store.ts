@@ -1,7 +1,7 @@
 import { RecipieState, SingleRecipieState, State, TagListState } from "@/types/store.types"
 import api from "@/services/api"
 import { Recipie } from "@/types/recipie.types";
-import { readonly, ref } from "vue";
+import { readonly } from "vue";
 import { useMsal } from "./msal";
 
 const initialRecipieState = (): RecipieState => ({ data: [], timestamp: null })
@@ -116,6 +116,19 @@ class Store {
         const token = await msal.acquireAccessToken();
 
         const response = await api.post("addRecipie", token, json);
+
+        console.log(`addRecipie Response: ${response}`)
+        console.log(response);
+        console.log(`Auth Token: ${token}`)
+
+        return response;
+    }
+
+    // Delete a recipie!
+    public async deleteRecipie(id: string) {
+        const token = await msal.acquireAccessToken();
+
+        const response = await api.delete("deleteRecipie/" + id, token)
 
         console.log(`addRecipie Response: ${response}`)
         console.log(response);

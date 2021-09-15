@@ -143,6 +143,39 @@ class APIService {
         return apiResponse;
     }
 
+    async delete(uri: string, accessToken: string | null) {
+        let apiResponse: APIResponse = {
+            success: false,
+            status: -1,
+            errors: [],
+            data: null,
+        };
+
+        const config: AxiosRequestConfig = {
+            url: this.baseUrl + uri,
+            method: "delete",
+            timeout: this.timeout,
+            headers: {},
+            cancelToken: new axios.CancelToken((c) => {
+                this.currentRequests.push(c);
+            })
+        }
+
+        if (accessToken) {
+            config.headers = { Authorization: `Bearer ${accessToken}` }
+        }
+
+        await this.retryRequest(config)
+            .then(response => {
+                apiResponse = (response as Record<string, unknown>).data as APIResponse;
+            })
+            .catch(error => {
+                apiResponse = this.processError(error);
+            })
+
+        return apiResponse;
+    }
+
     processError(error: Record<string, unknown>) {
         let response: APIResponse = {
             success: false,
@@ -177,4 +210,4 @@ class APIService {
     }
 }
 
-export default new APIService(process.env.VUE_APP_API_BASE_URL);
+export default new APIService(process.env.VUE_APP_API_BASE_URL as string);
