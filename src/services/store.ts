@@ -2,11 +2,13 @@ import { RecipieState, SingleRecipieState, State, TagListState } from "@/types/s
 import api from "@/services/api"
 import { Recipie } from "@/types/recipie.types";
 import { readonly, ref } from "vue";
-import { AccountInfo, Configuration } from "@azure/msal-browser";
+import { useMsal } from "./msal";
 
 const initialRecipieState = (): RecipieState => ({ data: [], timestamp: null })
 const initialTagListState = (): TagListState => ({ data: [], timestamp: null })
 const initialRecipieSingleState = (): SingleRecipieState => ({ data: {}, timestamp: null })
+
+const msal = useMsal();
 
 const initialState = (): State => ({
     recipieList: initialRecipieState(),
@@ -37,30 +39,7 @@ class Store {
         this.state = initialState;
     }
 
-    public setAccount(account: AccountInfo | null) {
-        this.state.account = account;
-    }
-
-    public getAccount() {
-        if (!this.state.account) {
-            return null;
-        }
-
-        return ref(this.state.account)
-    }
-
-    public getMsalConfig() {
-        return readonly(this.state.msalConfig) as Configuration;
-    }
-
-    public getAccessToken() {
-        return this.state.accessToken;
-    }
-
-    public setAccessToken(token: string) {
-        this.state.accessToken = token;
-    }
-
+    // Data
     private isDateExpired(date: Date) {
         const now = new Date();
 
@@ -134,11 +113,13 @@ class Store {
 
     // Add a new Recipie
     public async addRecipie(json: string) {
-        const response = await api.post("addRecipie", this.getAccessToken(), json);
+        const token = await msal.acquireAccessToken();
+
+        const response = await api.post("addRecipie", token, json);
 
         console.log(`addRecipie Response: ${response}`)
         console.log(response);
-        console.log(`Auth Token: ${this.getAccessToken()}`)
+        console.log(`Auth Token: ${token}`)
 
         return response;
     }

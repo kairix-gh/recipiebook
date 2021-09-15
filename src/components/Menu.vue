@@ -51,7 +51,7 @@
                                 <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">{{ item.label }}</span>
                             </router-link>
                         </li>
-                        <li v-if="currentAccount" class="group">
+                        <li v-if="isAdmin" class="group">
                             <router-link :to="{ name: 'AddRecipie' }" class=" inline-block py-2">
                                 <span class="border-b-2 border-white group-hover:border-blue-500 transition-all duration-300 ease-in-out">Add Recipie</span>
                             </router-link>
@@ -61,12 +61,12 @@
                 </div>
 
                 <div class="self-center">
-                    <div v-if="currentAccount" class="flex items-center space-x-6">
-                        <p v-if="currentAccount">{{ currentAccount.name }}</p>
-                        <button @click="SignOut" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white hover:bg-blue-800">Log Out</button>
+                    <div v-if="loggedIn" class="flex items-center space-x-6">
+                        <p v-if="loggedIn">{{ user?.name ?? "??" }}</p>
+                        <button @click="signOut" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white hover:bg-blue-800">Log Out</button>
                     </div>
                     <div v-else>
-                        <button @click="SignIn" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white hover:bg-blue-800">Log In</button>
+                        <button @click="signIn" class="px-3 py-0.5 rounded-lg bg-blue-500 text-white hover:bg-blue-800">Log In</button>
                     </div>
                 </div>
             </div>
@@ -75,11 +75,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Popover, PopoverPanel, PopoverButton } from "@headlessui/vue"
-
-import { PublicClientApplication } from "@azure/msal-browser"
-import { useStore } from '@/services/store'
+import { useMsal } from "@/services/msal"
+import mitt, { Emitter, EventType } from "mitt";
 
 export default defineComponent({
     name: "Menu",
@@ -89,77 +88,41 @@ export default defineComponent({
         PopoverButton
     },
     setup() {
-        const store = useStore();
+        const msal = useMsal();
+
+        msal.eventBus.on("userInfoUpdate", updateUserInfo);
+
+        const user = ref();
+        const isAdmin = ref();
+        const loggedIn = ref();
+
+        async function signIn() {
+            await msal.SignIn();
+        }
+
+        async function signOut() {
+            await msal.SignOut();
+        }
+
+        function updateUserInfo() {
+            loggedIn.value = msal.isLoggedIn();
+            user.value = msal.getCurrentUser();
+            isAdmin.value = msal.isCurrentUserAdmin();
+        }
 
         const items = [
             { label: "Recipies", route: "Recipies" },
             { label: "About", route: "About" },
         ]
 
-        const msal = new PublicClientApplication(store.getMsalConfig());
-
-        const accounts = msal.getAllAccounts();
-        const currentAccount = ref(store.getAccount());
-        const isAdmin = computed(() => {
-            if (currentAccount.value?.idTokenClaims) {
-                if (((currentAccount.value.idTokenClaims as Record<string, unknown>).roles as string[]) [0] == "Recipie.Add") {
-                    return true;
-                }
-            }
-            return false;
-        })
-
-        if (accounts.length > 0) {
-            msal.setActiveAccount(accounts[0]);
-            currentAccount.value = accounts[0];
-            // store.setAccount(accounts[0]);
-        }
-
-        async function SignIn() {
-            await msal.loginPopup()
-                .then(async () => {
-                    const myAccounts = msal.getAllAccounts();
-
-                    msal.setActiveAccount(myAccounts[0]);
-                    currentAccount.value = myAccounts[0];
-
-                    // store.setAccount(myAccounts[0]);
-
-                    const request = { scopes: ["api://c2f55804-c115-43d2-9cab-e5a8064cc557/user_impersonation"] }
-                    try {
-                        let tokenResponse = await msal.acquireTokenSilent(request);
-                        store.setAccessToken(tokenResponse.accessToken);
-                    } catch (e) {
-                        console.error(`Silent Token Acquisition failed, using interactive mode. ${e}`);
-                        let tokenResponse = await msal.acquireTokenPopup(request);
-                        store.setAccessToken(tokenResponse.accessToken);
-                    }
-                })
-                .catch(e => {
-                    console.error(`Authentication Error: ${e}`);
-                })
-
-                // console.log(`Access Token: ${store.getAccessToken()}`);
-        }
-
-        async function SignOut() {
-            await msal.logoutRedirect()
-                .then(async () => {
-                    currentAccount.value = null;
-                    // store.setAccount(null);
-                    store.setAccessToken("");
-                })
-                .catch(e => {
-                    console.error(`Authentication Logout Error: ${e}`);
-                })
-        }
-
         return {
             items,
-            SignIn,
-            SignOut,
-            currentAccount,
-            isAdmin
+
+            user,
+            signIn,
+            signOut,
+            loggedIn,
+            isAdmin,
         }
     }
 })
