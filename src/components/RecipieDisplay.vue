@@ -3,7 +3,7 @@
         <div class="flex w-full justify-center relative">
             <h1 class="text-center text-lg font-medium italic mb-4">{{ recipie.name }}</h1>
 
-            <button @click="deleteRecipie" class="self-center absolute right-0 bg-red-500 px-2 py-1 rounded-lg text-white hover:bg-red-800 transition duration-300">
+            <button v-if="isAdmin" @click="deleteRecipie" class="self-center absolute right-0 bg-red-500 px-2 py-1 rounded-lg text-white hover:bg-red-800 transition duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
             </button>
         </div>
@@ -72,8 +72,9 @@
 <script lang="ts">
 import { useStore } from '@/services/store';
 import { Recipie } from '@/types/recipie.types'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router';
+import { useMsal } from "@/services/msal"
 
 export default defineComponent({
     name: "Recipie Display",
@@ -83,6 +84,8 @@ export default defineComponent({
         const route = useRoute();
         const store = useStore();
 
+
+
         const recipie = await store.getRecipie(route.params.id as string) as Recipie;
 
         // Total Cook time
@@ -91,6 +94,14 @@ export default defineComponent({
         })
 
         // Delete!
+        const msal = useMsal();
+        msal.eventBus.on("userInfoUpdate", updateUserInfo);
+
+        const isAdmin = ref(false);
+        function updateUserInfo() {
+            isAdmin.value = msal.isCurrentUserAdmin();
+        }
+
         async function deleteRecipie() {
             const response = await store.deleteRecipie(route.params.id as string);
 
@@ -103,7 +114,8 @@ export default defineComponent({
         return {
             recipie,
             totalCookTime,
-            deleteRecipie
+            deleteRecipie,
+            isAdmin
         };
 
     }
