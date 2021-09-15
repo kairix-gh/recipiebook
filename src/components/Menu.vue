@@ -88,7 +88,6 @@ export default defineComponent({
     },
     setup() {
         const msal = useMsal();
-
         msal.eventBus.on("userInfoUpdate", updateUserInfo);
 
         const user = ref();
