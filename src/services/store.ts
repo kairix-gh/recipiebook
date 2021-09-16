@@ -49,6 +49,11 @@ class Store {
         return diffMin >= this.EXPIRED_DATA_MINUTES;
     }
 
+    public async expireData() {
+        this.state.recipieList.timestamp = null;
+        this.state.tagList.timestamp = null;
+    }
+
     // Get Recipie List
     public async getAllRecipies() {
         if (!this.state.recipieList.timestamp || this.isDateExpired(this.state.recipieList.timestamp)) {

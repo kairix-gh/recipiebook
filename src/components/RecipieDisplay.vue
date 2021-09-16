@@ -106,6 +106,7 @@ export default defineComponent({
             const response = await store.deleteRecipie(route.params.id as string);
 
             if (response.success) {
+                store.expireData();
                 // Redirect to recipies page
                 router.push({ name: "Recipies" });
             }
