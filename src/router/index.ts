@@ -33,6 +33,14 @@ const routes: Array<RouteRecordRaw> = [
     },
 ]
 
+if (process.env.NODE_ENV == "development") {
+    routes.push({
+        path: "/workbench",
+        name: "Workbench",
+        component: () => import("@/views/workbench.vue")
+    })
+}
+
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes

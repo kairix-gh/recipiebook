@@ -52,7 +52,7 @@ import { useStore } from '@/services/store'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
-    name: "AddRecipie",
+    name: "Workbench",
     components: {
         TabGroup,
         TabList,

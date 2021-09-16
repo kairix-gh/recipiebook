@@ -32,7 +32,7 @@
 <script lang="ts">
 import { useFieldError } from 'vee-validate'
 import { defineComponent, reactive } from 'vue'
-import BaseInput from "@/components/AddRecipie/BaseInput.vue";
+import BaseInput from "@/components/BaseFormControls/BaseInput.vue";
 
 export default defineComponent({
     name: "AddRecipieIngredient",
