@@ -117,10 +117,6 @@ class Store {
 
         const response = await api.post("addRecipie", token, json);
 
-        console.log(`addRecipie Response: ${response}`)
-        console.log(response);
-        console.log(`Auth Token: ${token}`)
-
         return response;
     }
 
@@ -129,10 +125,6 @@ class Store {
         const token = await msal.acquireAccessToken();
 
         const response = await api.delete("deleteRecipie/" + id, token)
-
-        console.log(`addRecipie Response: ${response}`)
-        console.log(response);
-        console.log(`Auth Token: ${token}`)
 
         return response;
     }

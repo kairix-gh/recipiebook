@@ -73,7 +73,7 @@
 import { useStore } from '@/services/store';
 import { Recipie } from '@/types/recipie.types'
 import { computed, defineComponent, ref } from 'vue'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useMsal } from "@/services/msal"
 
 export default defineComponent({
@@ -81,10 +81,9 @@ export default defineComponent({
     components: {
     },
     async setup() {
+        const router = useRouter();
         const route = useRoute();
         const store = useStore();
-
-
 
         const recipie = await store.getRecipie(route.params.id as string) as Recipie;
 
@@ -101,13 +100,14 @@ export default defineComponent({
         function updateUserInfo() {
             isAdmin.value = msal.isCurrentUserAdmin();
         }
+        updateUserInfo();
 
         async function deleteRecipie() {
             const response = await store.deleteRecipie(route.params.id as string);
 
             if (response.success) {
                 // Redirect to recipies page
-
+                router.push({ name: "Recipies" });
             }
         }
 
